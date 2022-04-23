@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+  
+</head>
+<style>
+#main{
+    display: flex;
+    
+}
+
+
+ #query{
+     width:200px;
+     height: 50px;
+ }
+ #movie_name{
+     cursor: pointer;
+ }
+ #movies{
+     border: 1px solid black;
+     height:200px;
+     width:250px;
+     border-top: none;
+     overflow: scroll;
+     display: list-item;
+     /* display: flex; */
+
+
+ }
+
+
+ /* #data{ */
+   /* background-color: aqua; */
+   /* display: flex; */
+     
+ /* } */
+ 
+ /* #movie_name{ */
+     /* line-height: 40px; */
+ /* } */
+   
+     
+
+
+</style>
+
+<body>
+
+
+
+    <h1>HOTSTAR</h1>
+    <input oninput="search()" type="text" id="query"/>
+
+    <div id="movies">
+
+     <div id="content">
+
+        <div id="img1"></div>
+        <div id="data"></div>
+    </div>
+            </div>
+
+
+   
+</body>
+</html>
+
+
+<script>
+    let container1 = document.getElementById("content");
+  let movie_div = document.getElementById('movies');
+//   let photo=document.getElementById('img1')
+  let d1 = document.getElementById('data');
+  
+    async function search(){
+        
+        // https://www.omdbapi.com/?apikey=6a41ddca&s=om_shanti_om
+         
+
+    try{
+
+        const query = document.getElementById('query').value
+        
+        let res = await fetch(`https://www.omdbapi.com/?apikey=6a41ddca&s=${query}`)
+      let data = await  res.json();
+      console.log(data.Search);
+      const movies1 = data.Search;
+      append(movies1) 
+    //   return movies1;
+       
+    }
+
+    catch (err){
+        console.log(err);
+    
+    }
+      }
+
+  function append(data){
+    //  optmize #1
+    // if(data === undefined){
+        // return false;
+    // }
+
+    // optmize #2
+
+    movie_div.innerHTML=null;
+
+      data.forEach(function (el){
+          let image1 = document.createElement("img");
+          image1.src=el.Poster
+          image1.style.height="130px";
+          image1.style.width="130px";
+
+        // photo.append(image1)
+
+          let p = document.createElement("p");
+           p.innerText=el.Title;
+           p.id="movie_name"
+           
+           d1.append(image1,p);
+           container1.append(d1);
+
+        
+
+
+    movie_div.append(container1);
+      })
+  }
+
+
+  async function main(){
+   const data = await search();
+
+   if(data === undefined){
+       return false;
+   }
+append(movies)
+
+  }
+
+
+</script>
